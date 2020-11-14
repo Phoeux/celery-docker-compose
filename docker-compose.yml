@@ -16,7 +16,7 @@ services:
     depends_on:
       - db
       - dick
-    command: python manage.py runserver 0.0.0.0:8000
+    command: bash -c 'python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000'
 
   db:
     image: postgres:latest
@@ -45,3 +45,9 @@ services:
       - db_keys.txt
     depends_on:
       - dick
+    ports:
+      - '5555:5555'
+    command: bash -c 'celery -A holidays worker -l info -B -E & celery flower -A holidays'
+
+
+    # celery flower -A holidays

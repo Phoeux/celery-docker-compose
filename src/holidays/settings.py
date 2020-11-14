@@ -12,6 +12,14 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 from os import environ
+from celery.schedules import crontab
+
+
+
+# from book.tasks import hello
+# hello.delay()
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -134,6 +142,12 @@ CELERY_RESULT_BACKEND = 'redis://dick:6379'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 
+CELERY_BEAT_SCHEDULE = {
+    'task_one': {
+        'task': 'book.tasks.hello',
+        'schedule': 3,
+    }   
+}
 
 STATIC_URL = '/static/'
 
